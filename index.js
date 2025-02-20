@@ -1,18 +1,39 @@
 const container = document.querySelector(".container");
 const btnGrid = document.querySelector(".btn-grid");
+let boxes
+let gridSize
 
-createBoxes();
+createBoxes(16);
 
-const boxes = document.querySelectorAll(".box");
+btnGrid.addEventListener("click", createNewGrid)
 
-function createBoxes()
+function createBoxes(amount)
 {
-    for (let i = 0; i < (16*16); i++)
+    for (let i = 0; i < (amount*amount); i++)
     {
         const box = document.createElement("div");
         box.classList.add("box");
         container.appendChild(box);
     }
+
+    
+
+    addBoxEvents();
+}
+
+function addBoxEvents()
+{
+    boxes = document.querySelectorAll(".box");
+
+    boxes.forEach((box) => 
+    {
+        box.addEventListener("mouseenter", function(e)
+        {
+            e.target.classList.add("painted");
+        });
+
+        box.style.width = (100/gridSize) + "%";
+    });
 }
 
 function createNewGrid()
@@ -21,15 +42,13 @@ function createNewGrid()
     {
         box.remove();
     });
-}
 
+    gridSize = prompt("Enter grid size (max 100):","16");
 
-boxes.forEach((box) => 
-{
-    box.addEventListener("mouseenter", function(e)
+    while (gridSize > 100 || isNaN(gridSize)) 
     {
-        e.target.classList.add("painted");
-    });
-});
+        gridSize = prompt("ERROR Enter grid size (max 100):","16");
+    }
 
-btnGrid.addEventListener("click", createNewGrid)
+    createBoxes(gridSize);
+}
