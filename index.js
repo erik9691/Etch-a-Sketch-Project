@@ -1,4 +1,5 @@
 const container = document.querySelector(".container");
+const btnGrid = document.querySelector(".btn-grid");
 
 createBoxes();
 
@@ -14,6 +15,15 @@ function createBoxes()
     }
 }
 
+function createNewGrid()
+{
+    boxes.forEach((box) => 
+    {
+        box.remove();
+    });
+}
+
+
 boxes.forEach((box) => 
 {
     box.addEventListener("mouseenter", function(e)
@@ -21,3 +31,5 @@ boxes.forEach((box) =>
         e.target.classList.add("painted");
     });
 });
+
+btnGrid.addEventListener("click", createNewGrid)
