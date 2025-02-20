@@ -1,11 +1,16 @@
 const container = document.querySelector(".container");
 const btnGrid = document.querySelector(".btn-grid");
+const btnChange = document.querySelector(".btn-change");
 let boxes
 let gridSize
+let colorMode = false;
 
 createBoxes(16);
 
 btnGrid.addEventListener("click", createNewGrid)
+
+btnChange.addEventListener("click", function(){if(colorMode === false){colorMode = true;}else{colorMode=false}});
+btnChange.addEventListener("click", createNewGrid)
 
 function createBoxes(amount)
 {
@@ -16,8 +21,6 @@ function createBoxes(amount)
         container.appendChild(box);
     }
 
-    
-
     addBoxEvents();
 }
 
@@ -27,9 +30,24 @@ function addBoxEvents()
 
     boxes.forEach((box) => 
     {
+        if(colorMode){box.style.opacity = 0;}
+
         box.addEventListener("mouseenter", function(e)
         {
-            e.target.classList.add("painted");
+            if (colorMode) 
+            {
+                e.target.style.backgroundColor = "rgb("+ Math.floor(Math.random()*256) + "," + Math.floor(Math.random()*256) + "," + Math.floor(Math.random()*256) + ")";
+
+                let currentOpacity = parseFloat(e.target.style.opacity);
+                if (currentOpacity < 1) 
+                {
+                     e.target.style.opacity = currentOpacity + 0.1;
+                }
+            }
+            else
+            {
+                e.target.style.backgroundColor = "black";
+            }
         });
 
         box.style.width = (100/gridSize) + "%";
